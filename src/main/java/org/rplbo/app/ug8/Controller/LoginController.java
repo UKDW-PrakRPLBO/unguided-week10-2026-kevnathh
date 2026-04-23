@@ -3,8 +3,11 @@ package org.rplbo.app.ug8.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.input.KeyCode;
 import org.rplbo.app.ug8.UmbrellaApp;
 import org.rplbo.app.ug8.UmbrellaDBManager;
+
+import java.io.IOException;
 
 public class LoginController {
     @FXML private TextField txtUsername;
@@ -25,8 +28,28 @@ public class LoginController {
         // 5. Jika gagal, tampilkan pesan error "AUTHENTICATION FAILED" pada lblStatus.
         // ==============================================================================
 
-        // --- TULIS KODE ANDA DI BAWAH INI ---
+//        if (event.getSource() == KeyCode.ENTER) {
+//            btnLoginClick();
+//        }
+//    }
+//
+//    @FXML
+//    protected void btnLoginClick() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
 
+        UmbrellaDBManager db = new UmbrellaDBManager();
 
+        if (db.validateUser(username, password) != null) {
+            try {
+                UmbrellaApp.loggedInUser = username;
+                UmbrellaApp.switchScene("umbrella-view.fxml");
+            } catch (IOException e) {
+//                throw new RuntimeException(e);
+                lblStatus.setText("AUTHENTICATION FAILED");
+            }
+        } else {
+            lblStatus.setText("AUTHENTICATION FAILED");
+        }
     }
 }

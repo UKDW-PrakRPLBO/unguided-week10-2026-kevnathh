@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <!--Buatlah Semirip mungkin, bebas asalkan jalan-->
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.rplbo.app.ug8.Controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rplbo.app.ug8.Controller.LoginController">
+   <children>
+      <Text layoutX="163.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UMBRELLA CORP - SECTOR B">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="154.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OPERATIVE ID:" />
+      <TextField fx:id="txtUsername" layoutX="154.0" layoutY="162.0" prefHeight="25.0" prefWidth="292.0" />
+      <Text layoutX="154.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSCODE:" />
+      <PasswordField fx:id="txtPassword" layoutX="154.0" layoutY="234.0" prefHeight="25.0" prefWidth="292.0" />
+      <Button fx:id="btnLogin" layoutX="154.0" layoutY="294.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="42.0" prefWidth="292.0" text="AUTHENTICATE" />
+      <Label fx:id="lblStatus" alignment="CENTER" layoutX="154.0" layoutY="343.0" prefHeight="27.0" prefWidth="292.0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

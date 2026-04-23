@@ -11,6 +11,7 @@ import org.rplbo.app.ug8.UmbrellaApp;
 import org.rplbo.app.ug8.UmbrellaDBManager;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UmbrellaController implements Initializable {
@@ -38,9 +39,12 @@ public class UmbrellaController implements Initializable {
         // ==============================================================================
 
         // --- TULIS KODE ANDA DI BAWAH INI ---
+        ArrayList<InventoryItem> data = db.getAllItems();
 
-
-
+        colName.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("itemName"));
+        colInitial.setCellValueFactory(new PropertyValueFactory<InventoryItem, Integer>("initialStock"));
+        colSupply.setCellValueFactory(new PropertyValueFactory<InventoryItem, Integer>("newSupply"));
+        colFinal.setCellValueFactory(new PropertyValueFactory<InventoryItem, Integer>("finalStock"));
 
         // ==============================================================================
         // TODO 2: LISTENER KLIK BARIS TABEL (SELECTION MODEL)
@@ -58,9 +62,11 @@ public class UmbrellaController implements Initializable {
         tableInventory.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 // --- TULIS KODE ANDA DI BAWAH INI ---
-
-
-
+                selectedItem = newVal;
+                txtItem.setText(selectedItem.getItemName());
+                txtInitial.setText(String.valueOf(selectedItem.getInitialStock()));
+                txtSupply.setText(String.valueOf(selectedItem.getNewSupply()));
+                txtItem.setDisable(true);
             }
         });
 
@@ -84,8 +90,20 @@ public class UmbrellaController implements Initializable {
         // ==============================================================================
 
         // --- TULIS KODE ANDA DI BAWAH INI ---
+        if (selectedItem != null) {
+            int initial = Integer.parseInt(txtInitial.getText());
+            int supply = Integer.parseInt(txtSupply.getText());
 
+            int final_stock = initial + supply;
 
+            InventoryItem dataBaru = new InventoryItem(selectedItem.getItemName(), initial, supply, final_stock);
+
+            if (db.updateItem(dataBaru)) {
+                refreshTable();
+            } else {
+                clearFields();
+            }
+        }
     }
 
     @FXML
@@ -103,8 +121,17 @@ public class UmbrellaController implements Initializable {
         // ==============================================================================
 
         // --- TULIS KODE ANDA DI BAWAH INI ---
+        int initial = Integer.parseInt(txtInitial.getText());
+        int supply = Integer.parseInt(txtSupply.getText());
 
+        int final_stock = initial + supply;
 
+        String namaItem = txtItem.getText();
+
+        InventoryItem dataBaru = new InventoryItem(namaItem, initial, supply, final_stock);
+
+        db.addItem(dataBaru);
+        refreshTable();
     }
 
     @FXML
@@ -123,7 +150,16 @@ public class UmbrellaController implements Initializable {
         // ==============================================================================
 
         // --- TULIS KODE ANDA DI BAWAH INI ---
-
+        if (selectedItem != null) {
+            Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION, "Konfirmasi Hapus?");
+            alert1.show();
+            if (db.deleteItem(selectedItem.getItemName())) {
+                masterData.remove(selectedItem);
+            } else {
+                Alert alert2 = new Alert(Alert.AlertType.WARNING, "Pilih item terlebih dahul");
+                alert2.show();
+            }
+        }
 
     }
 
